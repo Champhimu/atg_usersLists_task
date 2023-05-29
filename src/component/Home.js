@@ -13,6 +13,8 @@ const Home = () => {
     const [show, setShow] = useState(false);
     const [user, setUser] = useState([]);
     const [active, setActive] = useState(false);
+    const [searchInput, setSearchInput] = useState('');
+    const [filteredResults, setFilteredResults] = useState([]);
 
     const userDetails = async(id) => {
         const data = await axios.get(`https://602e7c2c4410730017c50b9d.mockapi.io/users/${id}`);
@@ -22,6 +24,27 @@ const Home = () => {
         setShow(true);
         // console.log(active);
     }
+
+    const searchItems = (searchValue) => {
+      setSearchInput(searchValue)
+      console.log(searchValue);
+      if (searchInput !== '') {
+        const filteredData = data.filter((data) => {
+          return Object.values(data.profile.firstName+ " " + data.profile.lastName).join('').toLowerCase().includes(searchInput.toLowerCase())
+        })
+        setFilteredResults(filteredData);
+      }else{
+        setFilteredResults(data);
+      }
+      
+      // data.filter((data) => {
+      //   return Object.values(data.profile.firstName).join('').toLowerCase().includes(searchInput.toLowerCase())
+      // })
+    }
+
+    
+
+    // console.log(filteredData);
 
     useEffect(() => {
         async function getUsers() {
@@ -44,6 +67,7 @@ const Home = () => {
         getUsers();
     }, []);
 
+    
   return (
     <>
     <div className='pb-5'>
@@ -84,7 +108,8 @@ const Home = () => {
             }}
             type="text"
             className="form-control"
-            placeholder="Search for first name or last name"
+            placeholder="Search for full name or first name or last name"
+            onChange={(e) => searchItems(e.target.value)}
           />
           </div>
 
@@ -96,6 +121,36 @@ const Home = () => {
             {error ? <Error /> : loading ? <Spinners /> : (
                 <>
                 {
+                    searchInput.length > 1 ? (filteredResults.map((data) => {
+                      return (
+                        <div className='card mt-2 mb-2'>
+                        <div className={`card-body list-item ${data.id === active ? 'active' : ''}`} key={data.id} onClick={() => userDetails(data.id)}> {console.log(data.id===active)}
+                            <div style={{ display: "flex" }}>
+                            <img
+                                style={{ width: "40px", height: "40px" }}
+                                className='rounded-circle'
+                                src={data.avatar}
+                                onError={event => {
+                                    event.target.src= `https://ui-avatars.com/api/?name=${data.profile.firstName}+${data.profile.lastName}?background=random`
+                                    event.onerror = null                    
+                                }}
+                                alt="user"
+                            />
+                            &nbsp;&nbsp;
+                            <h6
+                                style={{
+                                fontSize: "15px",
+                                fontWeight: "700",
+                                marginTop: "10px",
+                                }}
+                            >
+                                {data.profile.firstName+ " " + data.profile.lastName}
+                            </h6>
+                            </div>
+                            </div>
+                        </div>
+                      )
+                    })) : (
                     data.map((data) => (
                         <div className='card mt-2 mb-2'>
                         <div className={`card-body list-item ${data.id === active ? 'active' : ''}`} key={data.id} onClick={() => userDetails(data.id)}> {console.log(data.id===active)}
@@ -123,7 +178,7 @@ const Home = () => {
                             </div>
                             </div>
                         </div>
-                    ))
+                    )))
                 }
                 </>
             ) }
@@ -160,19 +215,19 @@ const Home = () => {
                             </div>
                             <div className='card-title mt-2 text-center'>{user.data.profile.username}</div>
                             <div className='form-group'>
-                                <label for="formControl">Bio</label>
+                                <label htmlFor="formControl">Bio</label>
                                 <textarea className='form-control' id='formControl' rows="3" placeholder={user.data.Bio} style={{background: "rgb(192 190 190)"}} readOnly></textarea>
                             </div>
                             <div className='form-group mt-4'>
-                                <label for="formControl">Full Name</label>
+                                <label htmlFor="formControl">Full Name</label>
                                 <input className='form-control' id='formControl' placeholder={user.data.profile.firstName + " " + user.data.profile.lastName}  style={{background: "rgb(192 190 190)"}} readOnly></input>
                             </div>
                             <div className='form-group mt-3'>
-                                <label for="formControl">Job Title</label>
+                                <label htmlFor="formControl">Job Title</label>
                                 <input className='form-control' id='formControl' placeholder={user.data.jobTitle}  style={{background: "rgb(192 190 190)"}} readOnly></input>
                             </div>
                             <div className='form-group mt-3'>
-                                <label for="formControl">Email</label>
+                                <label htmlFor="formControl">Email</label>
                                 <input className='form-control' id='formControl' placeholder={user.data.profile.email}  style={{background: "rgb(192 190 190)"}} readOnly></input>
                             </div>
                             <br />
