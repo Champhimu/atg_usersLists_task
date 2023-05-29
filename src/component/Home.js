@@ -194,7 +194,7 @@ const Home = () => {
                 {
                     error ? <Error/> : loading ? <Spinners/> : show === false ? (
                         <>
-                        <p className='text-center h5 pt-5'> Click on user to see details</p>
+                        <p className='text-center h5 pt-5'> Click on user to see detais</p>
                         </>
                     ) :
                     <>
