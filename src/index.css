@@ -25,8 +25,9 @@ code {
 .list-item.active {
   background-color: #D4D4D4;
 }
+
 @media screen and (max-width: 990px) {
   #padTop{
-    padding-top: 20%;
+    padding-top: 10%;
   }
 }

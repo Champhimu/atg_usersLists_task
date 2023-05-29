@@ -75,7 +75,7 @@ const Home = () => {
     </div>
     <Container>
       <Row className="justify-content-md-center">
-        <Col x="12" lg="5" style={{ marginRight: '2%', height: '80vh'}}>
+        <Col x="12" lg="5" style={{ marginRight: '2%', height: 'auto'}}>
             <div className='rounded-top p-3' style={{background: '#C5DFFF', BorderRadiusBottomleft: '0'}}>
                 <div className='card-body text-center'>
                     USER LISTS
