@@ -12,12 +12,15 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [user, setUser] = useState([]);
+    const [active, setActive] = useState(false);
 
     const userDetails = async(id) => {
         const data = await axios.get(`https://602e7c2c4410730017c50b9d.mockapi.io/users/${id}`);
         console.log(data);
         setUser(data);
+        setActive(id);
         setShow(true);
+        // console.log(active);
     }
 
     useEffect(() => {
@@ -94,8 +97,8 @@ const Home = () => {
                 <>
                 {
                     data.map((data) => (
-                        <div className='card mt-2 mb-2' style={{background: '#ECECEC'}}>
-                        <div className='card-body' key={data.id} onClick={() => userDetails(data.id)}>
+                        <div className='card mt-2 mb-2'>
+                        <div className={`card-body list-item ${data.id === active ? 'active' : ''}`} key={data.id} onClick={() => userDetails(data.id)}> {console.log(data.id===active)}
                             <div style={{ display: "flex" }}>
                             <img
                                 style={{ width: "40px", height: "40px" }}
