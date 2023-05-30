@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Error from './Error'
 import { FiSearch } from "react-icons/fi";
 import Spinners from './Spinners';
+import { BsArrowDownCircle } from 'react-icons/bs'
 
 const Home = () => {
     const [error, setError] = useState(false);
@@ -67,7 +68,10 @@ const Home = () => {
         getUsers();
     }, []);
 
-    
+  function goToBottom() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
   return (
     <>
     <div className='pb-5'>
@@ -84,7 +88,7 @@ const Home = () => {
             
             {/* Search bar */}
             <div
-          style={{ width: "360px", paddingTop: "15px", paddingBottom: "15px", margin: '0 auto' }}
+          style={{ width: "350px", paddingTop: "15px", paddingBottom: "15px", margin: '0 auto' }}
           className="input-group flex-nowrap">
           <span
             style={{
@@ -150,7 +154,7 @@ const Home = () => {
                             </div>
                         </div>
                       )
-                    })) : (
+                    })) :(
                     data.map((data) => (
                         <div className='card mt-2 mb-2'>
                         <div className={`card-body list-item ${data.id === active ? 'active' : ''}`} key={data.id} onClick={() => userDetails(data.id)}> {console.log(data.id===active)}
@@ -239,6 +243,14 @@ const Home = () => {
                 }
         </Col>
       </Row>
+      <p
+      className='d-lg-none d-md-block'
+        style={{ position: "fixed", right: "10px", bottom: "10px" }}
+        onClick={goToBottom}
+      >
+        {/* <img style={{ cursor: "pointer" }} alt="float" src={float} /> */}
+        <BsArrowDownCircle fontSize={'2em'} color='blue'/>
+      </p>
     </Container>
     </>
   )
